@@ -18,17 +18,52 @@
     --font-sans: 'Montserrat', sans-serif;
     --font-serif: 'Playfair Display', serif;
   }
+
+  /* Mobile-first responsive base styles */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Responsive typography */
+@media (min-width: 640px) {
+  body {
+    font-size: 16px;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Mobile-friendly touch targets */
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -49,14 +84,44 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Mobile-responsive containers */
+.container-mobile {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .container-mobile {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-mobile {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 /* only use this to update the style of the auth input fields. use a different class for all other input fields */
 .auth-input-field {
-  @apply w-full px-4 py-3 rounded-lg bg-white border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-shadow shadow-sm hover:shadow;
+  @apply w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-shadow shadow-sm hover:shadow text-sm sm:text-base;
 }
 
 /* only use this to update the style of the auth buttons. use the button class for all other buttons */
 .auth-button {
-  @apply w-full px-4 py-3 rounded bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  @apply w-full px-3 py-2 sm:px-4 sm:py-3 rounded bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base touch-manipulation;
 }
 
 /* Gradient text effect */
@@ -88,5 +153,42 @@ h1, h2, h3, h4, h5, h6 {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Mobile-specific utilities */
+@media (max-width: 639px) {
+  .mobile-full-width {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
+  
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+/* Touch-friendly spacing */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* Safe area handling for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset-x {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  .safe-area-inset-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }

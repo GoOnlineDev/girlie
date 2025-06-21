@@ -22,12 +22,12 @@ export function ProductGrid({ category, searchTerm, onProductClick }: ProductGri
 
   if (products === undefined) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-white rounded-lg p-4 animate-pulse">
-            <div className="aspect-square bg-gray-200 rounded-lg mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+          <div key={i} className="bg-white rounded-lg p-3 sm:p-4 animate-pulse">
+            <div className="aspect-square bg-gray-200 rounded-lg mb-3 sm:mb-4"></div>
+            <div className="h-3 sm:h-4 bg-gray-200 rounded mb-2"></div>
+            <div className="h-3 sm:h-4 bg-gray-200 rounded w-2/3"></div>
           </div>
         ))}
       </div>
@@ -36,12 +36,12 @@ export function ProductGrid({ category, searchTerm, onProductClick }: ProductGri
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="text-6xl mb-4">🛍️</div>
-        <h3 className="text-xl font-serif font-medium text-[#171717] mb-2">
+      <div className="text-center py-8 sm:py-12 px-4">
+        <div className="text-4xl sm:text-6xl mb-4">🛍️</div>
+        <h3 className="text-lg sm:text-xl font-serif font-medium text-[#171717] mb-2">
           No products found
         </h3>
-        <p className="text-[#171717]/60">
+        <p className="text-sm sm:text-base text-[#171717]/60">
           {searchTerm ? "Try a different search term" : "Check back later for new arrivals"}
         </p>
       </div>
@@ -49,7 +49,7 @@ export function ProductGrid({ category, searchTerm, onProductClick }: ProductGri
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
       {products.map((product) => (
         <ProductCard 
           key={product._id} 

@@ -23,6 +23,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const isAdmin = useQuery(api.admin.isAdmin);
   const cartItems = useQuery(api.cart.list);
@@ -49,16 +50,21 @@ export default function App() {
     setCurrentView("category");
   };
 
+  const handleMobileNavClick = (view: "about" | "contact") => {
+    setCurrentView(view);
+    setShowMobileMenu(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#FFF6E9] flex flex-col">
       <header className="sticky top-0 z-50 bg-[#FFF6E9]/95 backdrop-blur-sm border-b border-[#D5975B]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-            <img src="/logo.png" alt="Girlie" className="w-10 h-10" />              
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <img src="/logo.png" alt="Girlie" className="w-8 h-8 sm:w-10 sm:h-10" />              
               <button
                 onClick={() => setCurrentView("home")}
-                className="text-2xl font-serif font-bold text-[#171717] hover:text-purple-600 transition-colors"
+                className="text-xl sm:text-2xl font-serif font-bold text-[#171717] hover:text-purple-600 transition-colors"
               >
                 Girlie
               </button>
@@ -67,6 +73,7 @@ export default function App() {
               </span>
             </div>
             
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               <button
                 onClick={() => setCurrentView("about")}
@@ -82,17 +89,27 @@ export default function App() {
               </button>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Authenticated>
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  className="md:hidden p-2 text-[#171717] hover:text-purple-600 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+
                 <button
                   onClick={() => setCurrentView("cart")}
                   className="relative p-2 text-[#171717] hover:text-purple-600 transition-colors"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
                   </svg>
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center text-[10px] sm:text-xs">
                       {cartItemCount}
                     </span>
                   )}
@@ -101,7 +118,7 @@ export default function App() {
                   onClick={() => setCurrentView("upload")}
                   className="p-2 text-[#171717] hover:text-purple-600 transition-colors"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
@@ -112,7 +129,7 @@ export default function App() {
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="p-2 text-[#171717] hover:text-purple-600 transition-colors"
                   >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </button>
@@ -144,17 +161,40 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {showMobileMenu && (
+          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+            <div className="px-4 py-2 space-y-1">
+              <button
+                onClick={() => handleMobileNavClick("about")}
+                className="block w-full text-left px-3 py-2 text-sm font-medium text-[#171717] hover:bg-gray-100 rounded-md"
+              >
+                About Us
+              </button>
+              <button
+                onClick={() => handleMobileNavClick("contact")}
+                className="block w-full text-left px-3 py-2 text-sm font-medium text-[#171717] hover:bg-gray-100 rounded-md"
+              >
+                Contact Us
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* Click outside to close dropdown */}
-      {showUserMenu && (
+      {/* Click outside to close dropdowns */}
+      {(showUserMenu || showMobileMenu) && (
         <div 
           className="fixed inset-0 z-40" 
-          onClick={() => setShowUserMenu(false)}
+          onClick={() => {
+            setShowUserMenu(false);
+            setShowMobileMenu(false);
+          }}
         />
       )}
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <Authenticated>
           <Content 
             currentView={currentView}
@@ -171,7 +211,7 @@ export default function App() {
         <Unauthenticated>
           <div className="max-w-md mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-serif font-bold text-[#171717] mb-4">
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#171717] mb-4">
                 Welcome to Girlie
               </h1>
               <p className="text-lg text-purple-600 mb-2">Let's shop it</p>

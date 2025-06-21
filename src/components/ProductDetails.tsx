@@ -80,10 +80,10 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
 
   if (!product) {
     return (
-      <div className="max-w-6xl mx-auto text-center py-12">
-        <div className="text-6xl mb-4">❌</div>
-        <h2 className="text-2xl font-serif font-bold text-[#171717] mb-4">Product not found</h2>
-        <p className="text-[#171717]/60 mb-8">The product you're looking for doesn't exist.</p>
+      <div className="max-w-6xl mx-auto text-center py-8 sm:py-12">
+        <div className="text-4xl sm:text-6xl mb-4">❌</div>
+        <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#171717] mb-4">Product not found</h2>
+        <p className="text-[#171717]/60 mb-6 sm:mb-8">The product you're looking for doesn't exist.</p>
         <button
           onClick={onBack}
           className="bg-[#D5975B] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#D5975B]/90 transition-colors"
@@ -99,9 +99,9 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
   const otherPrice = selectedVersion === "original" ? product.ordinaryPrice : product.originalPrice;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12">
+    <div className="max-w-6xl mx-auto space-y-8 sm:space-y-12">
       {/* Back Button */}
-      <div className="flex items-center mb-8">
+      <div className="flex items-center mb-6 sm:mb-8">
         <button
           onClick={onBack}
           className="p-2 text-[#171717] hover:text-[#D5975B] transition-colors mr-4"
@@ -110,10 +110,10 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h1 className="text-3xl font-serif font-bold text-[#171717]">Product Details</h1>
+        <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#171717]">Product Details</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Product Image */}
         <div className="space-y-4">
           <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden relative">
@@ -121,28 +121,29 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
               <img
                 src={currentImage}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                loading="lazy"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400">
-                <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-16 h-16 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                 </svg>
               </div>
             )}
             
             {/* Category Badge */}
-            <div className="absolute top-4 right-4">
-              <span className="bg-[#D5975B] text-white text-sm px-3 py-1 rounded-full capitalize">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+              <span className="bg-[#D5975B] text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full capitalize">
                 {product.category}
               </span>
             </div>
 
             {/* Stats */}
-            <div className="absolute top-4 left-4 flex flex-col space-y-2">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col space-y-2">
               {product.views && product.views > 0 && (
-                <span className="bg-black/50 text-white text-sm px-3 py-1 rounded-full flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <span className="bg-black/50 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full flex items-center">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                     <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
                   </svg>
@@ -150,8 +151,8 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                 </span>
               )}
               {product.likes && product.likes > 0 && (
-                <span className="bg-black/50 text-white text-sm px-3 py-1 rounded-full flex items-center">
-                  <svg className="w-4 h-4 mr-1 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <span className="bg-black/50 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full flex items-center">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-red-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
                   </svg>
                   {product.likes}
@@ -162,10 +163,10 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
             {/* Like Button */}
             <button
               onClick={handleToggleLike}
-              className="absolute bottom-4 right-4 p-3 bg-white/90 rounded-full hover:bg-white transition-colors shadow-lg"
+              className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 p-2 sm:p-3 bg-white/80 rounded-full hover:bg-white transition-colors touch-manipulation"
             >
               <svg 
-                className={`w-6 h-6 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} 
+                className={`w-5 h-5 sm:w-6 sm:h-6 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} 
                 fill={isLiked ? "currentColor" : "none"} 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -177,12 +178,12 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
         </div>
 
         {/* Product Info */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <div>
-            <h2 className="text-3xl font-serif font-bold text-[#171717] mb-2">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#171717] mb-2">
               {product.name}
             </h2>
-            <p className="text-lg text-[#171717]/70 mb-4">
+            <p className="text-base sm:text-lg text-[#171717]/70 mb-4">
               {product.description}
             </p>
             
@@ -193,7 +194,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
-                      className={`w-5 h-5 ${i < Math.floor(product.rating!) ? 'text-yellow-400' : 'text-gray-300'}`}
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${i < Math.floor(product.rating!) ? 'text-yellow-400' : 'text-gray-300'}`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -201,7 +202,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                     </svg>
                   ))}
                 </div>
-                <span className="text-sm text-gray-600">
+                <span className="text-xs sm:text-sm text-gray-600">
                   {product.rating.toFixed(1)} ({product.reviewCount} reviews)
                 </span>
               </div>
@@ -210,11 +211,11 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
 
           {/* Version Selection */}
           <div>
-            <h3 className="text-lg font-medium text-[#171717] mb-3">Select Version</h3>
-            <div className="flex space-x-3">
+            <h3 className="text-base sm:text-lg font-medium text-[#171717] mb-3">Select Version</h3>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 onClick={() => setSelectedVersion("original")}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-3 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                   selectedVersion === "original"
                     ? "bg-[#D5975B] text-white"
                     : "bg-gray-100 text-[#171717] hover:bg-[#D5975B]/10"
@@ -224,7 +225,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
               </button>
               <button
                 onClick={() => setSelectedVersion("ordinary")}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-3 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                   selectedVersion === "ordinary"
                     ? "bg-[#D5975B] text-white"
                     : "bg-gray-100 text-[#171717] hover:bg-[#D5975B]/10"
@@ -238,12 +239,12 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
           {/* Price Display */}
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-lg text-[#171717]/70">Current Price:</span>
-              <span className="text-3xl font-bold text-[#171717]">
+              <span className="text-base sm:text-lg text-[#171717]/70">Current Price:</span>
+              <span className="text-2xl sm:text-3xl font-bold text-[#171717]">
                 ${currentPrice.toFixed(2)}
               </span>
             </div>
-            <div className="flex items-center justify-between text-sm text-[#171717]/60">
+            <div className="flex items-center justify-between text-xs sm:text-sm text-[#171717]/60">
               <span>Other version:</span>
               <span>${otherPrice.toFixed(2)}</span>
             </div>
@@ -251,18 +252,18 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
 
           {/* Quantity Selection */}
           <div>
-            <h3 className="text-lg font-medium text-[#171717] mb-3">Quantity</h3>
+            <h3 className="text-base sm:text-lg font-medium text-[#171717] mb-3">Quantity</h3>
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors text-lg font-medium"
               >
                 -
               </button>
-              <span className="text-xl font-medium w-12 text-center">{quantity}</span>
+              <span className="text-lg sm:text-xl font-medium w-12 text-center">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors text-lg font-medium"
               >
                 +
               </button>
@@ -272,7 +273,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
           {/* Stock Status */}
           <div className="flex items-center space-x-2">
             <div className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
-            <span className={`font-medium ${product.inStock ? 'text-green-700' : 'text-red-700'}`}>
+            <span className={`font-medium text-sm sm:text-base ${product.inStock ? 'text-green-700' : 'text-red-700'}`}>
               {product.inStock ? 'In Stock' : 'Out of Stock'}
             </span>
           </div>

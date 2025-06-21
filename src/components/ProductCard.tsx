@@ -83,26 +83,27 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
           <img
             src={currentImage}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400">
-            <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-12 h-12 sm:w-16 sm:h-16" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
             </svg>
           </div>
         )}
-        <div className="absolute top-2 right-2">
-          <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full capitalize">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+          <span className="bg-purple-600 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full capitalize">
             {product.category === "bathandbody" ? "Bath & Body" : 
              product.category === "haircare" ? "Hair Care" : 
              product.category}
           </span>
         </div>
-        <div className="absolute top-2 left-2 flex space-x-2">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-2">
           {product.views && (
-            <span className="bg-black/50 text-white text-xs px-2 py-1 rounded-full flex items-center">
-              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <span className="bg-black/50 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full flex items-center">
+              <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                 <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
               </svg>
@@ -112,10 +113,10 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
         </div>
         <button
           onClick={handleToggleLike}
-          className="absolute bottom-2 right-2 p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
+          className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-2 sm:p-2.5 bg-white/80 rounded-full hover:bg-white transition-colors touch-manipulation"
         >
           <svg 
-            className={`w-5 h-5 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} 
+            className={`w-4 h-4 sm:w-5 sm:h-5 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} 
             fill={isLiked ? "currentColor" : "none"} 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -125,12 +126,12 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
         </button>
       </div>
       
-      <div className="p-4">
-        <h3 className="font-serif font-medium text-[#171717] mb-2 line-clamp-2">
+      <div className="p-3 sm:p-4">
+        <h3 className="font-serif font-medium text-[#171717] mb-2 line-clamp-2 text-sm sm:text-base">
           {product.name}
         </h3>
         
-        <p className="text-sm text-[#171717]/60 mb-3 line-clamp-2">
+        <p className="text-xs sm:text-sm text-[#171717]/60 mb-3 line-clamp-2">
           {product.description}
         </p>
 
@@ -141,7 +142,7 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
-                  className={`w-4 h-4 ${i < Math.floor(product.rating!) ? 'text-yellow-400' : 'text-gray-300'}`}
+                  className={`w-3 h-3 sm:w-4 sm:h-4 ${i < Math.floor(product.rating!) ? 'text-yellow-400' : 'text-gray-300'}`}
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -156,10 +157,10 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
         )}
         
         <div className="flex items-center justify-between mb-4">
-          <div className="flex space-x-2">
+          <div className="flex space-x-1 sm:space-x-2">
             <button
               onClick={(e) => handleVersionChange(e, "original")}
-              className={`px-3 py-1 text-xs rounded-full font-medium transition-colors ${
+              className={`px-2 py-1 sm:px-3 sm:py-1 text-xs rounded-full font-medium transition-colors touch-manipulation ${
                 selectedVersion === "original"
                   ? "bg-purple-600 text-white"
                   : "bg-gray-100 text-[#171717] hover:bg-purple-100"
@@ -169,7 +170,7 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
             </button>
             <button
               onClick={(e) => handleVersionChange(e, "ordinary")}
-              className={`px-3 py-1 text-xs rounded-full font-medium transition-colors ${
+              className={`px-2 py-1 sm:px-3 sm:py-1 text-xs rounded-full font-medium transition-colors touch-manipulation ${
                 selectedVersion === "ordinary"
                   ? "bg-purple-600 text-white"
                   : "bg-gray-100 text-[#171717] hover:bg-purple-100"
@@ -189,14 +190,14 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
         </div>
         
         <div className="flex items-center justify-between">
-          <div className="text-lg font-bold text-[#171717]">
+          <div className="text-base sm:text-lg font-bold text-[#171717]">
             ${currentPrice.toFixed(2)}
           </div>
           
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock || isLoading}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-purple-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm touch-manipulation"
           >
             {isLoading ? "Adding..." : "Add to Cart"}
           </button>
