@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
+import { ResponsiveImage } from "./ResponsiveImage";
 
 interface Product {
   _id: string;
@@ -43,7 +44,7 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
   }, [product._id, trackView, sessionId]);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering product click
+    e.stopPropagation();
     setIsLoading(true);
     try {
       await addToCart({
@@ -60,7 +61,7 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
   };
 
   const handleToggleLike = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering product click
+    e.stopPropagation();
     try {
       await toggleLike({ productId: product._id as any });
     } catch (error) {
@@ -69,54 +70,66 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
   };
 
   const handleVersionChange = (e: React.MouseEvent, version: "original" | "ordinary") => {
-    e.stopPropagation(); // Prevent triggering product click
+    e.stopPropagation();
     setSelectedVersion(version);
+  };
+
+  const formatCategoryName = (category: string) => {
+    if (category === "bathandbody") return "Bath & Body";
+    if (category === "haircare") return "Hair Care";
+    return category.charAt(0).toUpperCase() + category.slice(1);
   };
 
   return (
     <div 
-      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden cursor-pointer"
+      className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer border border-gray-100 hover:border-purple-200"
       onClick={() => onProductClick(product._id)}
     >
-      <div className="aspect-square bg-gray-100 relative overflow-hidden">
-        {currentImage ? (
-          <img
-            src={currentImage}
-            alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
-            <svg className="w-12 h-12 sm:w-16 sm:h-16" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-            </svg>
-          </div>
-        )}
-        <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-          <span className="bg-purple-600 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full capitalize">
-            {product.category === "bathandbody" ? "Bath & Body" : 
-             product.category === "haircare" ? "Hair Care" : 
-             product.category}
+      {/* Image Container with Enhanced Overlays */}
+      <div className="relative">
+        <ResponsiveImage
+          src={currentImage}
+          alt={product.name}
+          className="shadow-lg group-hover:shadow-xl"
+          aspectRatio="square"
+          priority={false}
+          hover={true}
+          overlayEffect="scale"
+          placeholder="blur"
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Category Badge */}
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
+          <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 rounded-full font-medium backdrop-blur-sm border border-white/10">
+            {formatCategoryName(product.category)}
           </span>
         </div>
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-2">
-          {product.views && (
-            <span className="bg-black/50 text-white text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full flex items-center">
-              <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
-              </svg>
-              {product.views}
-            </span>
-          )}
+        
+        {/* Stats Badge */}
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
+          <div className="flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-2">
+            {product.views && product.views > 0 && (
+              <span className="bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
+                </svg>
+                {product.views}
+              </span>
+            )}
+          </div>
         </div>
+        
+        {/* Like Button - Enhanced for mobile */}
         <button
           onClick={handleToggleLike}
-          className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-2 sm:p-2.5 bg-white/80 rounded-full hover:bg-white transition-colors touch-manipulation"
+          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-10 p-3 sm:p-3.5 bg-white/95 backdrop-blur-sm rounded-full hover:bg-white hover:scale-110 transition-all duration-200 touch-manipulation shadow-lg hover:shadow-xl min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
           <svg 
-            className={`w-4 h-4 sm:w-5 sm:h-5 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} 
+            className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400 hover:text-red-400'}`} 
             fill={isLiked ? "currentColor" : "none"} 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -124,21 +137,39 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </button>
+        
+        {/* Stock Indicator */}
+        {!product.inStock && (
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-20">
+            <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base shadow-lg border border-red-400/20">
+              <div className="flex items-center space-x-2">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span>Out of Stock</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
-      <div className="p-3 sm:p-4">
-        <h3 className="font-serif font-medium text-[#171717] mb-2 line-clamp-2 text-sm sm:text-base">
-          {product.name}
-        </h3>
-        
-        <p className="text-xs sm:text-sm text-[#171717]/60 mb-3 line-clamp-2">
-          {product.description}
-        </p>
+      {/* Content */}
+      <div className="p-3 sm:p-4 lg:p-5 space-y-3">
+        {/* Title and Description */}
+        <div className="space-y-2">
+          <h3 className="font-serif font-semibold text-[#171717] line-clamp-2 text-sm sm:text-base lg:text-lg leading-tight">
+            {product.name}
+          </h3>
+          
+          <p className="text-xs sm:text-sm text-[#171717]/60 line-clamp-2 leading-relaxed">
+            {product.description}
+          </p>
+        </div>
 
         {/* Rating */}
         {product.rating && product.reviewCount && (
-          <div className="flex items-center space-x-1 mb-3">
-            <div className="flex items-center">
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-0.5">
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
@@ -150,62 +181,104 @@ export function ProductCard({ product, onProductClick }: ProductCardProps) {
                 </svg>
               ))}
             </div>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs sm:text-sm text-gray-500 font-medium">
               {product.rating.toFixed(1)} ({product.reviewCount})
             </span>
           </div>
         )}
         
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex space-x-1 sm:space-x-2">
-            <button
-              onClick={(e) => handleVersionChange(e, "original")}
-              className={`px-2 py-1 sm:px-3 sm:py-1 text-xs rounded-full font-medium transition-colors touch-manipulation ${
-                selectedVersion === "original"
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-100 text-[#171717] hover:bg-purple-100"
-              }`}
-            >
-              Original
-            </button>
-            <button
-              onClick={(e) => handleVersionChange(e, "ordinary")}
-              className={`px-2 py-1 sm:px-3 sm:py-1 text-xs rounded-full font-medium transition-colors touch-manipulation ${
-                selectedVersion === "ordinary"
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-100 text-[#171717] hover:bg-purple-100"
-              }`}
-            >
-              Ordinary
-            </button>
+        {/* Version Selection - Enhanced Mobile Layout */}
+        <div className="space-y-3">
+          <div className="flex justify-center">
+            <div className="flex bg-gray-100 rounded-xl p-1 space-x-1 w-full">
+              <button
+                onClick={(e) => handleVersionChange(e, "original")}
+                className={`px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold transition-all duration-200 touch-manipulation min-h-[40px] flex-1 ${
+                  selectedVersion === "original"
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transform scale-[1.02]"
+                    : "bg-transparent text-[#171717] hover:bg-white hover:text-purple-700 hover:shadow-md"
+                }`}
+              >
+                Original
+              </button>
+              <button
+                onClick={(e) => handleVersionChange(e, "ordinary")}
+                className={`px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold transition-all duration-200 touch-manipulation min-h-[40px] flex-1 ${
+                  selectedVersion === "ordinary"
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transform scale-[1.02]"
+                    : "bg-transparent text-[#171717] hover:bg-white hover:text-purple-700 hover:shadow-md"
+                }`}
+              >
+                Ordinary
+              </button>
+            </div>
           </div>
+          
+          {/* Likes Count */}
           {product.likes && product.likes > 0 && (
-            <span className="text-xs text-gray-500 flex items-center">
-              <svg className="w-3 h-3 mr-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-              </svg>
-              {product.likes}
-            </span>
+            <div className="flex justify-center">
+              <span className="text-xs sm:text-sm text-gray-500 flex items-center space-x-1 bg-gray-50 px-2 py-1 rounded-full">
+                <svg className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
+                </svg>
+                <span>{product.likes} likes</span>
+              </span>
+            </div>
           )}
         </div>
         
-        <div className="flex items-center justify-between">
-          <div className="text-base sm:text-lg font-bold text-[#171717]">
-            ${currentPrice.toFixed(2)}
+        {/* Price and Add to Cart - Enhanced Mobile Layout */}
+        <div className="space-y-3 pt-2 border-t border-gray-100">
+          <div className="text-center">
+            <div className="text-xl sm:text-2xl font-bold text-[#171717] mb-1">
+              ${currentPrice.toFixed(2)}
+            </div>
+            {product.inStock ? (
+              <span className="inline-flex items-center text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                In Stock
+              </span>
+            ) : (
+              <span className="inline-flex items-center text-xs text-red-500 font-medium bg-red-50 px-2 py-1 rounded-full">
+                <div className="w-2 h-2 bg-red-400 rounded-full mr-1"></div>
+                Out of Stock
+              </span>
+            )}
           </div>
           
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock || isLoading}
-            className="bg-purple-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm touch-manipulation"
+            className={`w-full px-4 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all duration-200 touch-manipulation min-h-[44px] ${
+              !product.inStock
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : isLoading
+                ? "bg-gradient-to-r from-purple-100 to-pink-100 text-purple-500 cursor-wait"
+                : "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+            }`}
           >
-            {isLoading ? "Adding..." : "Add to Cart"}
+            {isLoading ? (
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+                <span>Adding to Cart...</span>
+              </div>
+            ) : !product.inStock ? (
+              <div className="flex items-center justify-center space-x-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span>Out of Stock</span>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center space-x-2">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span className="font-bold">Add to Cart</span>
+              </div>
+            )}
           </button>
         </div>
-        
-        {!product.inStock && (
-          <p className="text-red-500 text-sm mt-2">Out of stock</p>
-        )}
       </div>
     </div>
   );
