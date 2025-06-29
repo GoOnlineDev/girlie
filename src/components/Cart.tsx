@@ -109,7 +109,7 @@ export function Cart() {
         </div>
         <div className="text-right">
           <div className="text-sm text-gray-500">Total</div>
-          <div className="text-2xl font-bold text-[#171717]">${total.toFixed(2)}</div>
+          <div className="text-2xl font-bold text-[#171717]">UGX {total.toLocaleString()}</div>
         </div>
       </div>
 
@@ -153,7 +153,7 @@ export function Cart() {
                          item.product.category}
                       </p>
                       <div className="text-xl font-bold text-[#171717] mt-2">
-                        ${price.toFixed(2)} each
+                        UGX {price.toLocaleString()} each
                       </div>
                     </div>
                     
@@ -182,7 +182,7 @@ export function Cart() {
                       </div>
                       <div className="text-center space-y-3">
                         <div className="text-2xl font-bold text-[#171717] bg-gradient-to-r from-purple-50 to-pink-50 py-2 rounded-lg">
-                          ${(price * item.quantity).toFixed(2)}
+                          UGX {(price * item.quantity).toLocaleString()}
                         </div>
                         <button
                           onClick={() => handleRemove(item._id)}
@@ -221,7 +221,7 @@ export function Cart() {
                       
                       <div className="flex items-center space-x-6">
                         <div className="text-2xl font-bold text-[#171717]">
-                          ${(price * item.quantity).toFixed(2)}
+                          UGX {(price * item.quantity).toLocaleString()}
                         </div>
                         <button
                           onClick={() => handleRemove(item._id)}
@@ -248,7 +248,7 @@ export function Cart() {
             <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
               <div className="flex justify-between items-center text-gray-600 bg-white/50 rounded-lg p-3">
                 <span className="font-medium">Items ({totalItems})</span>
-                <span className="font-semibold">${total.toFixed(2)}</span>
+                <span className="font-semibold">UGX {total.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center text-gray-600 bg-white/50 rounded-lg p-3">
                 <span className="font-medium">Shipping</span>
@@ -266,7 +266,7 @@ export function Cart() {
               <div className="border-t border-purple-200 pt-3 sm:pt-4">
                 <div className="flex justify-between items-center bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-4 border border-purple-200">
                   <span className="text-lg sm:text-xl font-bold text-[#171717]">Total</span>
-                  <span className="text-xl sm:text-2xl font-bold text-purple-700">${total.toFixed(2)}</span>
+                  <span className="text-xl sm:text-2xl font-bold text-purple-700">UGX {total.toLocaleString()}</span>
                 </div>
               </div>
             </div>

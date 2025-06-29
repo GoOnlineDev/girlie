@@ -228,7 +228,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-xl sm:text-2xl font-bold mb-1">${product.originalPrice.toFixed(2)}</div>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">UGX {product.originalPrice.toLocaleString()}</div>
                   <div className="text-sm sm:text-base opacity-90 font-semibold">Original Version</div>
                   <div className="text-xs opacity-75 mt-1">Premium Quality</div>
                 </div>
@@ -242,7 +242,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-xl sm:text-2xl font-bold mb-1">${product.ordinaryPrice.toFixed(2)}</div>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">UGX {product.ordinaryPrice.toLocaleString()}</div>
                   <div className="text-sm sm:text-base opacity-90 font-semibold">Ordinary Version</div>
                   <div className="text-xs opacity-75 mt-1">Great Value</div>
                 </div>
@@ -255,12 +255,12 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
             <div className="flex items-center justify-between mb-4">
               <span className="text-lg text-[#171717]/70">Current Price:</span>
               <span className="text-3xl font-bold text-[#171717]">
-                ${currentPrice.toFixed(2)}
+                UGX {currentPrice.toLocaleString()}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm text-[#171717]/60 border-t border-gray-100 pt-4">
               <span>Alternative version:</span>
-              <span className="font-medium">${otherPrice.toFixed(2)}</span>
+              <span className="font-medium">UGX {otherPrice.toLocaleString()}</span>
             </div>
           </div>
 
@@ -328,7 +328,7 @@ export function ProductDetails({ productId, onBack }: ProductDetailsProps) {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  <span>{`Add ${quantity} to Cart • $${(currentPrice * quantity).toFixed(2)}`}</span>
+                  <span>{`Add ${quantity} to Cart • UGX ${(currentPrice * quantity).toLocaleString()}`}</span>
                 </div>
               )}
             </button>
